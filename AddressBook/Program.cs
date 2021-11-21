@@ -1,46 +1,62 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace AddressBook
+
+namespace AddressBookSystem
 {
-    class ContactDetails
+    class AddContactDetails
     {
-        //variable declaration
-        private string firstname;
-        private string lastname;
-        private string address;
-        private string city;
-        private string state;
-        private int zip;
-        private long phonenumber;
-
-        //creating xonstructor
-        public ContactDetails(string firstname, string lastname, string address, string city, string state, int zip, long phonenumber)
+        public static void setDetails()
         {
-            //assigning variables
-            this.firstname = firstname;
-            this.lastname = lastname;
-            this.address = address;
-            this.city = city;
-            this.state = state;
-            this.zip = zip;
-            this.phonenumber = phonenumber;
-        }
-        //Displaying details
-        public void getDetails()
-        {
-            Console.WriteLine("Contact details : " + "\nName : " + firstname + " " + lastname + "\nAddress : " + address + "\nCity : " + city + "\nState : " + state + "\nZip Code : " + zip + "\nPhoneNumber = " + phonenumber);
-        }
+            List<string> details = new List<string>();                        //creating list collection object
 
+            Console.WriteLine("WELCOME TO ADDRESS BOOK");                     //display welcome message
+            Console.WriteLine();
+            Console.Write("Enter number of person details you are adding : "); //taking user input
+            int count = Convert.ToInt32(Console.ReadLine());                   //converting string to integer  
+            //variable declaration
+            int i = 1;
+            while (count >= i)
+            {
+                Console.WriteLine();
+                Console.WriteLine("\nEnter new contact details :");
+                Console.WriteLine();
+                Console.Write("Enter Your First Name : ");          //taking input from user
+                string firstname = Console.ReadLine();              //storing into variable
+                details.Add("First Name: " + firstname);              //adding into list collection
+                Console.Write("Enter Your Last Name : ");
+                string lastname = Console.ReadLine();
+                details.Add("Last Name : " + lastname);
+                Console.Write("Enter Your address : ");
+                string address = Console.ReadLine();
+                details.Add("Address : " + address);
+                Console.Write("Enter Your City Name : ");
+                string city = Console.ReadLine();
+                details.Add("City : " + city);
+                Console.Write("Enter Your State Name : ");
+                string state = Console.ReadLine();
+                details.Add("State : " + state);
+                Console.Write("Enter Your Zip Code : ");
+                long zip = Convert.ToInt32(Console.ReadLine());
+                details.Add("Zip Code : " + zip);
+                Console.Write("Enter Your Phone Number : ");
+                long phonenumber = Convert.ToInt64(Console.ReadLine());
+                details.Add("Phone Number : " + phonenumber);
+
+
+                Console.Write("\nDetails of Contact Number " + i);          //display contact details
+                Console.WriteLine();
+                Console.WriteLine();
+                details.ForEach(Console.WriteLine);
+                i++;
+            }
+
+        }
 
         static void Main(string[] args)
         {
-            //creating object of ContactDetails
-            ContactDetails contactdetails = new ContactDetails("Amir", "Jamadar", "Sangli", "Sangli", "Maharashtra", 415409, 9096076758);
-            contactdetails.getDetails();
+            //calling function
+            AddContactDetails.setDetails();
             Console.ReadLine();
         }
     }
