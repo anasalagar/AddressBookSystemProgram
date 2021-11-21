@@ -9,7 +9,14 @@ namespace AddressBook
     class AddressBook
     {
         //declaring list with class contacts type
-        public List<ContactDetails> contacts = new List<ContactDetails>();
+        public static List<ContactDetails> contacts = new List<ContactDetails>();
+        //declaring dictionary
+        public static Dictionary<string, List<ContactDetails>> addressBook = new Dictionary<string, List<ContactDetails>>();
+        //declaring it static so that we dont need to create an object in the program.cs
+        public static void AddTo(string name)              //this method is used to pass the new address book name to the dictionary
+        {
+            addressBook.Add(name, contacts);
+        }
         //This method for add new contact in address book
         public void AddContact()
         {
