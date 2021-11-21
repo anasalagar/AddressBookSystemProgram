@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AddressBook
+namespace AddressBookSystem
 {
     class AddressBook
     {
@@ -18,7 +19,8 @@ namespace AddressBook
         public static Dictionary<string, List<ContactDetails>> stateBook = new Dictionary<string, List<ContactDetails>>();
 
         //declaring it static so that we dont need to create an object in the program.cs
-        public static void AddTo(string name)              //this method is used to pass the new address book name to the dictionary
+        //this method is used to pass the new address book name to the dictionary
+        public static void AddTo(string name)
         {
             addressBook.Add(name, contacts);
         }
@@ -36,6 +38,8 @@ namespace AddressBook
             contact.address = Console.ReadLine();
             Console.Write("Enter phone number : ");
             contact.phoneNumber = Console.ReadLine();
+            Console.Write("Enter Email Id : ");
+            contact.email = Console.ReadLine();
             Console.Write("Enter city Name : ");
             contact.city = Console.ReadLine();
             Console.Write("Enter state Name : ");
@@ -312,5 +316,167 @@ namespace AddressBook
                 Console.WriteLine("\nWrong entry, Please choose between 1 and 2");
             }
         }
+        //This method for to get number of contact persons by counting city or state
+        public void CountByCityOrStateName()
+        {
+            Console.WriteLine("Select 1 : count person by city, \n2: Count person by state");
+            int num = Convert.ToInt32(Console.ReadLine());
+            void CountByCity()
+            {
+                foreach (var item in cityBook)
+                {
+                    int count = item.Value.Count();
+                    Console.WriteLine("There are {0} number of people in City- {1}", count, item.Key);
+                }
+            }
+            void CountBystate()
+            {
+                foreach (var item in stateBook)
+                {
+                    int count = item.Value.Count();
+                    Console.WriteLine("There are {0} number of people in City- {1}", count, item.Key);
+                }
+            }
+
+            if (num == 1)
+            {
+                //When there are atleast 1 entry
+                if (cityBook.Count != 0)
+                {
+                    CountByCity();
+                }
+                else
+                {
+                    Console.WriteLine("Currently no entries stored");
+                }
+            }
+            else if (num == 2)
+            {
+                if (stateBook.Count != 0)
+                {
+                    CountBystate();
+                }
+                else
+                {
+                    Console.WriteLine("Currently no entries stored");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Invalid selection, please select between 1 and 2");
+            }
+
+        }
+        public void SortByFirstName(List<ContactDetails> contactDetails)
+        {
+            contacts = contactDetails.OrderBy(p => p.firstName).ToList();
+        }
+        public void SortByChoice(List<ContactDetails> contactDetails)
+        {
+            Console.WriteLine("Select the option to sort the contct list : \n1 : City Name \n2 : State Name \n3. Zip Code");
+            int num = Convert.ToInt32(Console.ReadLine());
+            if (num == 1)
+            {
+                contacts = contactDetails.OrderBy(p => p.city).ToList();
+            }
+            if (num == 2)
+            {
+                contacts = contactDetails.OrderBy(p => p.state).ToList();
+            }
+            if (num == 3)
+            {
+                contacts = contactDetails.OrderBy(p => p.zip).ToList();
+            }
+            else
+            {
+                Console.WriteLine("Invalid Selection,please select between 1 to 3 ");
+            }
+        }
+        //This method for writing address book with person contact into .txt file using File IO
+        public static void WriteAddressBookUsingStreamWriter()
+        {
+            //provide file path
+            string path = @"C:\Users\Admin\source\repos\AddressBookSystem\Files\AddressBookWriterFile.txt";
+            using (StreamWriter se = File.AppendText(path))
+            {
+                //iterating each element from addressbook dictionary
+                foreach (KeyValuePair<string, List<ContactDetails>> item in addressBook)
+                {
+                    foreach (var items in item.Value)
+                    {
+                        //writing in .txt file
+                        se.WriteLine("First Name -" + items.firstName);
+                        se.WriteLine("Last Name -" + items.lastName);
+                        se.WriteLine("Address -" + items.address);
+                        se.WriteLine("Phone Number - " + items.phoneNumber);
+                        se.WriteLine("Email ID -" + items.email);
+                        se.WriteLine("City -" + items.city);
+                        se.WriteLine("State -" + items.state);
+                        se.WriteLine("ZIP code -" + items.zip);
+                    }
+                    se.WriteLine("--------------------------------------------------------------");
+                }
+                se.Close();
+                Console.WriteLine(File.ReadAllText(path));
+            }
+        }
+        //This method for readingg address book with person contact from .txt file using File IO
+        public static void ReadAddressBookUsingStreamReader()
+        {
+            Console.WriteLine("The contact List using StreamReader method ");
+
+            string path = @"C:\Users\Admin\source\repos\AddressBookSystem\Files\AddressBookWriterFile.txt";
+            using (StreamReader se = File.OpenText(path))
+            {
+                string s = " ";
+                while ((s = se.ReadLine()) != null)
+                {
+                    Console.WriteLine(s);
+                }
+
+            }
+        }
+        //This method for writing address book with person contact into .csv file using File IO
+        public static void CsvSerialise()
+        {
+            try
+            {
+                string csvPath = @"C:\Users\Admin\source\repos\AddressBookSystem\Files\CsvFile.csv";
+                var writer = File.AppendText(csvPath);
+
+
+                foreach (KeyValuePair<string, List<ContactDetails>> item in addressBook)
+                {
+                    foreach (var items in item.Value)
+                    {
+                        writer.WriteLine(items.firstName + ", " + items.lastName + ", " + items.phoneNumber + ", " + items.email + ", " + items.city + ", " + items.state + ", " + items.zip + ".");
+
+                    }
+                    writer.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
+        }
+        //This method for readingg address book with person contact from .csv file using File IO
+        public static void CsvDeserialise()
+        {
+            string csvPath = @"C:\Users\Admin\source\repos\AddressBookSystem\Files\CsvFile.csv";
+            using (var reader = new StreamReader(csvPath))
+
+            {
+                string s = " ";
+                while ((s = reader.ReadLine()) != null)
+                {
+                    Console.WriteLine(s);
+                }
+
+            }
+
+
+        }
+
     }
 }
