@@ -134,5 +134,66 @@ namespace AddressBook
                 }
             }
         }
+
+        //this method takes the list and contactbook object of contacts class
+        public static int SearchDuplicate(List<ContactDetails> contacts, ContactDetails contactBook)
+        {
+            //iteratingall elements in contact list by using for each loop
+            foreach (var Details in contacts)
+            {
+                //using lambda expression and equals method
+                var person = contacts.Find(p => p.firstName.Equals(contactBook.firstName));
+                if (person != null)
+                {
+                    Console.WriteLine("Already this contact exist with same first name : " + person.firstName);
+                    return 1;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+            return 0;
+        }
+
+        //This method for search person using city name
+        public static void SearchCity()
+        {
+            Console.WriteLine("Please Enter Name of city");
+            string city = Console.ReadLine();
+            foreach (var Details in contacts)
+            {
+                var person = contacts.Find(p => p.city.Equals(city));
+                if (person != null)
+                {
+                    Console.WriteLine("{0} person in the {1}", Details.firstName, city);
+                }
+                else
+                {
+
+                }
+            }
+
+        }
+
+        //This method for search person using state name
+        public static void SearchState()
+        {
+            Console.WriteLine("Please Enter Name of State");
+            string state = Console.ReadLine();
+            foreach (var Details in contacts)
+            {
+                var person = contacts.Find(p => p.state.Equals(state));
+                if (person != null)
+                {
+                    Console.WriteLine("{0} person in the {1}", Details.firstName, state);
+                }
+                else
+                {
+
+                }
+            }
+
+        }
     }
 }
