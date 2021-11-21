@@ -61,6 +61,9 @@ namespace AddressBook
                         case 9:
                             obj.SortByFirstName(AddressBook.contacts);
                             break;
+                        case 10:
+                            obj.SortByChoice(AddressBook.contacts);
+                            break;
                     }
                     Console.WriteLine("Do you wish to continue? Press (y/n)");
                     keyPress = Console.ReadLine();
