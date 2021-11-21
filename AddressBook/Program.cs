@@ -58,6 +58,9 @@ namespace AddressBook
                         case 8:
                             obj.CountByCityOrStateName();
                             break;
+                        case 9:
+                            obj.SortByFirstName(AddressBook.contacts);
+                            break;
                     }
                     Console.WriteLine("Do you wish to continue? Press (y/n)");
                     keyPress = Console.ReadLine();
